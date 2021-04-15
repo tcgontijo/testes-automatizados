@@ -3,11 +3,12 @@ package tests.entities;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import tests.factory.EmployeeFactory;
+import entities.Employee;
+import entities.OutsourceEmployee;
 import tests.factory.OutsourceEmployeeFactory;
 
 public class OutsourceEmployeeTests {
-	
+
 	@Test
 	public void constructorShouldThrowExceptionWhenHoursGreaterThan42() {
 
@@ -32,7 +33,7 @@ public class OutsourceEmployeeTests {
 
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			OutsourceEmployee e = OutsourceEmployeeFactory.createEmptyOutsourceEmployee();
-			e.setHour(43);
+			e.setHours(43);
 		});
 
 	}
@@ -42,7 +43,7 @@ public class OutsourceEmployeeTests {
 
 		Integer expectedValue = 40;
 		OutsourceEmployee e = OutsourceEmployeeFactory.createEmptyOutsourceEmployee();
-		e.setHour(expectedValue);
+		e.setHours(expectedValue);
 
 		Assertions.assertEquals(expectedValue, e.getHours());
 
@@ -73,20 +74,21 @@ public class OutsourceEmployeeTests {
 
 	@Test
 	public void paymentShouldThrowExceptionWhenValueLessThanMinimumWage() {
-		
+
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			Double minimumValuePerHour = Employee.MINIMUM_WAGE / 42;
-			OutsourceEmployee e = OutsourceEmployeeFactory.createOutsourceEmployee("José", 38,	minimumValuePerHour, 100.00);
+			OutsourceEmployee e = OutsourceEmployeeFactory.createOutsourceEmployee("José", 38, minimumValuePerHour,
+					0.00);
 			e.payment();
 		});
 	}
 
 	@Test
 	public void paymentShouldReturnPaymentValueWhenValueGreaterThanOrEqualToMinimumWage() {
-		Double minimumValuePerHour = Employee.MINIMUM_WAGE / 40;
-		Double expectedValue = minimumValuePerHour + 20.00;
-		OutsourceEmployee e = OutsourceEmployeeFactory.createOutsourceEmployee("José", 40,	expectedValue, 100.00);
-		
+		Double minimumValuePerHour = Employee.MINIMUM_WAGE / 42.0;
+		OutsourceEmployee e = OutsourceEmployeeFactory.createOutsourceEmployee("José", 42, minimumValuePerHour, 100.00);
+		Double expectedValue = (minimumValuePerHour * e.getHours()) + (e.getAdditionalCharge() * 1.1);
+
 		Assertions.assertEquals(expectedValue, e.payment());
 
 	}

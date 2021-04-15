@@ -1,13 +1,18 @@
 package tests.factory;
 
-import tests.entities.EmployeeTests;
+import entities.Employee;
 
 public class EmployeeFactory {
 
-	/*
-	 * public static Employee createEmplyee(String name, Integer hours, Double
-	 * ValuePerHour) { return new Employee(name, hours, ValuePerHour); }
-	 */
+	public static Employee createEmployee(String name, int hours, double ValuePerHour) {
+		return new Employee(name, hours, ValuePerHour);
+	}
+
+	public static Employee createEmptyEmployee() {
+		return new Employee();
+	}
+	
+	
 	
 	
 	

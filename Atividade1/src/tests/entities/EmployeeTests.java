@@ -3,6 +3,7 @@ package tests.entities;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import entities.Employee;
 import tests.factory.EmployeeFactory;
 
 public class EmployeeTests {
@@ -19,7 +20,7 @@ public class EmployeeTests {
 	@Test
 	public void constructorShouldSetHoursWhenHoursLessThan40() {
 
-		Integer expectedValue = 38;
+		Integer expectedValue = 39;
 		Employee e = EmployeeFactory.createEmployee("José", expectedValue, 50.00);
 
 		Assertions.assertEquals(expectedValue, e.getHours());
@@ -31,7 +32,7 @@ public class EmployeeTests {
 
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			Employee e = EmployeeFactory.createEmptyEmployee();
-			e.setHour(41);
+			e.setHours(41);
 		});
 
 	}
@@ -41,7 +42,7 @@ public class EmployeeTests {
 
 		Integer expectedValue = 38;
 		Employee e = EmployeeFactory.createEmptyEmployee();
-		e.setHour(expectedValue);
+		e.setHours(expectedValue);
 
 		Assertions.assertEquals(expectedValue, e.getHours());
 
@@ -72,10 +73,10 @@ public class EmployeeTests {
 
 	@Test
 	public void paymentShouldThrowExceptionWhenValueLessThanMinimumWage() {
-		
+
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			Double minimumValuePerHour = Employee.MINIMUM_WAGE / 40;
-			Employee e = EmployeeFactory.createEmployee("José", 35,	minimumValuePerHour);
+			Employee e = EmployeeFactory.createEmployee("José", 35, minimumValuePerHour);
 			e.payment();
 		});
 	}
@@ -83,9 +84,9 @@ public class EmployeeTests {
 	@Test
 	public void paymentShouldReturnPaymentValueWhenValueGreaterThanOrEqualToMinimumWage() {
 		Double minimumValuePerHour = Employee.MINIMUM_WAGE / 40;
-		Double expectedValue = minimumValuePerHour + 20.00;
-		Employee e = EmployeeFactory.createEmployee("José", 40,	expectedValue);
-		
+		Employee e = EmployeeFactory.createEmployee("José", 40, minimumValuePerHour);
+		Double expectedValue = minimumValuePerHour * e.getHours();
+
 		Assertions.assertEquals(expectedValue, e.payment());
 
 	}
